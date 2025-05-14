@@ -29,6 +29,7 @@
 ### Storage
 
 - `maxTotalSupply`: The maximum number of tokens that can ever be minted.
+- `sendFee`: The percentage of tokens burned with each transfer.
 
 ---
 
@@ -78,6 +79,22 @@ struct Init {
 
 ---
 
+## `setSendFee(uint256 newSendFee)`
+
+- **Access:** Requires `DEFAULT_ADMIN_ROLE`
+- **Description:** Updates the `sendFee` of the token.
+- **Emits:** `SendFeeChanged(newSendFee)`
+
+---
+
+## `setBlacklist(address user, bool status)`
+
+- **Access:** Requires `DEFAULT_ADMIN_ROLE`
+- **Description:** Sets or removes a user from the blacklist.
+- **Emits:** `BlacklistChanged(user, status)`
+
+---
+
 ## `_authorizeUpgrade(address newImplementation)`
 
 - **Access:** Requires `UPGRADER_ROLE`
@@ -92,3 +109,6 @@ struct Init {
 | `UnexpectedInitializeParams()`  | One or more of the required initialization addresses is zero.  |
 | `MaxSupplyOutOfBound()`         | Attempted mint would exceed the defined `maxTotalSupply`.      |
 | `CannotBeLessThanTotalSupply()` | New max supply is less than the currently minted token supply. |
+| `SenderIsBlacklisted()`         | Sender is blacklisted and cannot perform this action.          |
+| `RecipientIsBlacklisted()`      | Recipient is blacklisted and cannot receive tokens.            |
+| `SendFeeIsMoreThan100Percent()` | `sendFee` cannot exceed 100%.                                  |
